@@ -1,9 +1,8 @@
 {
   "name": "ember-islands",
-  "version": "0.0.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "version": "0.1.0",
+  "description": "Render Ember components 'outside' of an Ember application to create 'Islands of Richness' in a server-rendered application.",
   "directories": {
-    "doc": "doc",
     "test": "tests"
   },
   "scripts": {
@@ -11,11 +10,11 @@
     "build": "ember build",
     "test": "ember test"
   },
-  "repository": "",
+  "repository": "http://github.com/mitchlloyd/ember-islands",
   "engines": {
     "node": ">= 0.10.0"
   },
-  "author": "",
+  "author": "Mitch Lloyd",
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.0.0",
@@ -35,7 +34,9 @@
     "glob": "^4.0.5"
   },
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "islands of richness",
+    "ujs"
   ],
   "ember-addon": {
     "configPath": "tests/dummy/config"
