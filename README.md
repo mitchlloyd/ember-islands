@@ -44,7 +44,7 @@ using the helper from ember-cli-rails or by including it yourself.
 Then inside of your Rails view files you can render a component using HTML data
 attributes.
 
-```html
+```html+erb
 <div data-component="my-component" data-attr"<%= {
   title: @post.title,
   body: @post.body
@@ -53,7 +53,7 @@ attributes.
 
 Another option is to create a Rails helper.
 
-```
+```ruby
 module EmberComponentHelper
   def ember_component(name, attrs = {})
     content_tag(:div, '', data: { component: name, attrs: attrs.to_json })
@@ -63,7 +63,7 @@ end
 
 And then use that inside of your view files instead.
 
-```html
+```html+erb
 <%= ember_component 'my-component', title: @post.title, body: @post.body %>
 ```
 
