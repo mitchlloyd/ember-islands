@@ -1,3 +1,9 @@
 {{title}}
 
-My humble component
+<p>My humble component</p>
+
+<button {{action 'toggleIsExpanded'}}>Expand something</button>
+
+{{#if isExpanded}}
+  <p>I'm expanded!</p>
+{{/if}}
