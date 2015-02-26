@@ -1,7 +1,7 @@
 # ember-islands
 
 Render Ember components UJS-style to achieve "Islands of Richness". You can
-arbitrarily render Ember components anywhere on the page and all of them will be
+arbitrarily render Ember components in the body of the page and they will all be
 connected to the same Ember app.
 
 ## Installation
@@ -83,3 +83,26 @@ This addon is for those times when you can't convince yourself or someone else
 to create an Ember app from the start of when you're trying to introduce Ember
 into an existing server-rendered application. You can start with components and
 later back into features like the Router if you'd like.
+
+## How?
+
+This addon uses an Ember.Initializer to:
+
+1. Locate elements on the page with `data-component="some-component-name"`.
+2. Create components with the name given by `data-component` and with the
+   attributes given by the json in `data-attr`.
+3. Append each component to the DOM using `appendTo`.
+
+These components are created in the context of your Ember application so they
+all share the helpers, services, models, and other objects in your application.
+
+When any Ember application is initialized it sets up event listeners on the
+document `body` that delegate events from the `body` to your Ember components.
+When you render components inside of the body tag they will be fully functioning
+components.
+
+By default Ember uses the `body` tag as its root element. It is possible to
+scope your Ember application to just a portion of the page by configuring the
+`rootElement` property of the application. If you do set a specific
+`rootElement` keep in mind that, just as with any Ember application, your
+components must be rendered inside of the root element.
