@@ -80,7 +80,7 @@ incantation of micro-libraries, design patterns, and build tooling might help yo
 refactor your jQuery soup.
 
 This addon is for those times when you can't convince yourself or someone else
-to create an Ember app from the start of when you're trying to introduce Ember
+to create an Ember app from the start or when you're trying to introduce Ember
 into an existing server-rendered application. You can start with components and
 later back into features like the Router if you'd like.
 
