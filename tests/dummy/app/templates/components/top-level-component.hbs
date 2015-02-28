@@ -1,0 +1,11 @@
+<h1 id="component-title">{{title}}</h1>
+
+<p>top level component</p>
+
+<button id="toggle-expanded" {{action 'toggleIsExpanded'}}>Expand something</button>
+
+{{#if isExpanded}}
+  <p id="expanded-content">Expanded!</p>
+{{/if}}
+
+{{nested-component nestedAction='toggleIsExpanded'}}
