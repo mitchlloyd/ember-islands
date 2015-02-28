@@ -15,7 +15,7 @@ ember install ember-islands
 ## Usage
 
 ```html
-<div data-component='my-component' data-attr='{"title": "Component Title"}'></div>
+<div data-component='my-component' data-attrs='{"title": "Component Title"}'></div>
 ```
 
 ```handlebars
@@ -45,7 +45,7 @@ Then inside of your Rails view files you can render a component using HTML data
 attributes.
 
 ```html+erb
-<div data-component="my-component" data-attr"<%= {
+<div data-component="my-component" data-attrs"<%= {
   title: @post.title,
   body: @post.body
 }.to_json %>"></div>
@@ -90,7 +90,7 @@ This addon uses an Ember.Initializer to:
 
 1. Locate elements on the page with `data-component="some-component-name"`.
 2. Create components with the name given by `data-component` and with the
-   attributes given by the json in `data-attr`.
+   attributes given by the json in `data-attrs`.
 3. Append each component to the DOM using `appendTo`.
 
 These components are created in the context of your Ember application so they
