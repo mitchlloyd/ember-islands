@@ -45,7 +45,7 @@ Then inside of your Rails view files you can render a component using HTML data
 attributes.
 
 ```html+erb
-<div data-component="my-component" data-attrs"<%= {
+<div data-component="my-component" data-attrs="<%= {
   title: @post.title,
   body: @post.body
 }.to_json %>"></div>
