@@ -1,17 +1,6 @@
 import Ember from 'ember';
+import getRenderComponentFor from 'ember-islands/get-render-component-for';
 var $ = Ember.$;
-
-// Do a little dance with Ember to create a function that can render
-// components for the given application.
-function getRenderComponentFor(application) {
-  var container = application.__container__;
-  var componentLookup = container.lookup('component-lookup:main');
-
-  return function renderComponent(name, attributes, element) {
-    var component = componentLookup.lookupFactory(name, container);
-    component.create(attributes).appendTo(element);
-  };
-}
 
 function componentAttributes(element) {
   var json = element.getAttribute('data-attrs');
