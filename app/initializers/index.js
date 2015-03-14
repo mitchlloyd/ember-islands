@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import getRenderComponentFor from 'get-render-component-for';
+import getRenderComponentFor from 'ember-islands/get-render-component-for';
 var $ = Ember.$;
 
 function componentAttributes(element) {
