@@ -55,3 +55,9 @@ test('using nested components', function(assert) {
     assert.equal(find("#expanded-content").length, 1, "The expanded content is showing");
   });
 });
+
+test('not rendering the application template', function(assert) {
+  visit('/').then(function() {
+    assert.equal(find("#application-template").length, 0, "Application template was not rendered");
+  });
+});
