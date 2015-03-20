@@ -16,6 +16,9 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
+
+      // This is a flag to supress ember-island behavior
+      // EMBER_ISLANDS: { bypass: true }
     }
   };
 
