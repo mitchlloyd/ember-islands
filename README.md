@@ -29,14 +29,9 @@ My humble component
 ## Example Usage in Rails
 
 If you're using this addon within the context of a Rails app you'll probably
-want to:
-
-1. Get familiar with the
-   [ember-cli-rails](https://github.com/rwz/ember-cli-rails) gem. This will help
-   you integrate ember-cli with your Rails application.
-
-2. Delete your `app/templates/application.hbs` file so that nothing is rendered
-   when Ember loads.
+want to get familiar with the
+[ember-cli-rails](https://github.com/rwz/ember-cli-rails) gem. This will help
+you integrate ember-cli with your Rails application.
 
 Make sure that you've included your ember-cli application on a given page either
 using the helper from ember-cli-rails or by including it yourself.
@@ -67,6 +62,29 @@ And then use that inside of your view files instead.
 <%= ember_component 'my-component', title: @post.title, body: @post.body %>
 ```
 
+## Bypassing the Addon
+
+If you only want to use ember-islands in certain environments, you can suppress
+its behavior using `APP` configuration:
+
+```javascript
+// Example app/config/environment.js file from ember-cli.
+
+module.exports = function(environment) {
+  var ENV = {
+    // ...
+
+    APP: {
+      // This is a flag to supress ember-islands behavior
+      EMBER_ISLANDS: { bypass: true }
+    },
+
+    if (environment == 'legacy') {
+      ENV.APP.EMBER_ISLANDS.bypass = false;
+    }
+  };
+```
+
 ## Why?
 
 Ember Islands is a reference to the "Islands of Richness" pattern where the
@@ -92,6 +110,8 @@ This addon uses an Ember.Initializer to:
 2. Create components with the name given by `data-component` and with the
    attributes given by the json in `data-attrs`.
 3. Append each component to the DOM using `appendTo`.
+4. Cancel the default routing behavior which would normally load the Application
+   route and render the application template when the app boots.
 
 These components are created in the context of your Ember application so they
 all share the helpers, services, models, and other objects in your application.
