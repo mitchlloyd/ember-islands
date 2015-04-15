@@ -1,5 +1,7 @@
 # ember-islands
 
+[ ![Codeship Status for mitchlloyd/ember-islands](https://codeship.com/projects/0de87f00-c59f-0132-5306-3a52b81c571d/status?branch=master)](https://codeship.com/projects/74441)
+
 Render Ember components UJS-style to achieve "Islands of Richness". You can
 arbitrarily render Ember components in the body of the page and they will all be
 connected to the same Ember app.
@@ -126,3 +128,4 @@ scope your Ember application to just a portion of the page by configuring the
 `rootElement` property of the application. If you do set a specific
 `rootElement` keep in mind that, just as with any Ember application, your
 components must be rendered inside of the root element.
+
