@@ -2,7 +2,7 @@ import Ember from 'ember';
 import { module, test } from 'qunit';
 import startApp from '../helpers/start-app';
 
-import getRenderComponentFor from 'ember-islands/get-render-component-for';
+import { getRenderComponentFor } from 'ember-islands/render-components';
 
 var renderComponent;
 var application;
