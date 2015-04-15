@@ -11,13 +11,22 @@ export function getRenderComponentFor(application) {
   return function renderComponent(name, attributes, element) {
     var component = componentLookup.lookupFactory(name, container);
     assert(`ember-islands could not find a component named "${name}" in your Ember appliction.`, component);
-    component.create(attributes).appendTo(element);
+    component.create(attributes).replaceIn(element);
   };
 }
 
 function componentAttributes(element) {
-  var json = element.getAttribute('data-attrs');
-  return json ? JSON.parse(json) : {};
+  var attrs;
+  var attrsJSON = element.getAttribute('data-attrs');
+
+  if (attrsJSON) {
+    attrs = JSON.parse(attrsJSON);
+  } else {
+    attrs = {};
+  }
+
+  attrs.innerContent = element.innerHTML;
+  return attrs;
 }
 
 export default function renderComponents(application) {
