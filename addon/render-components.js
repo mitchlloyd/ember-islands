@@ -11,6 +11,9 @@ export function getRenderComponentFor(application) {
   return function renderComponent(name, attributes, element) {
     var component = componentLookup.lookupFactory(name, container);
     assert(`ember-islands could not find a component named "${name}" in your Ember appliction.`, component);
+
+    // Temporary fix for bug in `replaceIn`
+    $(element).empty();
     component.create(attributes).replaceIn(element);
   };
 }
