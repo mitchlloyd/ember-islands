@@ -81,7 +81,7 @@ module.exports = function(environment) {
       EMBER_ISLANDS: { bypass: true }
     },
 
-    if (environment == 'legacy') {
+    if (environment === 'legacy') {
       ENV.APP.EMBER_ISLANDS.bypass = false;
     }
   };
