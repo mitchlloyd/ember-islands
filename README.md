@@ -17,7 +17,9 @@ ember install:addon ember-islands
 ## Usage
 
 ```html
-<div data-component='my-component' data-attrs='{"title": "Component Title"}'></div>
+<div data-component='my-component' data-attrs='{"title": "Component Title"}'>
+  <p>Some optional innerContent</p>
+</div>
 ```
 
 ```handlebars
@@ -25,8 +27,12 @@ ember install:addon ember-islands
 
 {{title}}
 
-My humble component
+{{{innerContent}}}
 ```
+
+Ember Islands parses the JSON data that you pass in the `data-attrs` attribute
+and sends it to the component as attributes. Any content within your tag
+(`innerHTML`) is passed as the `innerContent` attribute.
 
 ## Example Usage in Rails
 
