@@ -19,6 +19,7 @@ module('Acceptance: Rendering Components', {
 
   afterEach: function() {
     Ember.run(application, 'destroy');
+    document.getElementById('ember-testing').innerHTML = '';
   }
 });
 

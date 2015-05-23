@@ -3,7 +3,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   isExpanded: false,
   attributeBindings: ['id'],
-  id: 'top-level-component',
+  elementId: 'top-level-component',
 
   actions: {
     toggleIsExpanded: function() {

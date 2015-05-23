@@ -20,6 +20,7 @@ module('Acceptance: Using Inner Content', {
 
   afterEach: function() {
     Ember.run(application, 'destroy');
+    document.getElementById('ember-testing').innerHTML = '';
   }
 });
 

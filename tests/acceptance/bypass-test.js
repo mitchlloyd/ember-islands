@@ -21,6 +21,7 @@ module('Acceptance: Bypassing Ember Islands', {
 
   afterEach: function() {
     Ember.run(application, 'destroy');
+    document.getElementById('ember-testing').innerHTML = '';
   }
 });
 
