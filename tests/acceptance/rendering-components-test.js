@@ -15,6 +15,8 @@ module('Acceptance: Rendering Components', {
     `;
 
     application = startApp();
+    application.boot();
+    Ember.run(application, 'advanceReadiness');
   },
 
   afterEach: function() {
@@ -26,18 +28,14 @@ module('Acceptance: Rendering Components', {
 test('rendering a component with an attribute', function(assert) {
   assert.expect(2);
 
-  visit('/').then(function() {
-    assert.equal(find('p:contains(top level component)').length, 1, "The top level component was rendered");
-    assert.equal(find('#component-title:contains(Component Title)').length, 1, "Passed in attributes can be used");
-  });
+  assert.equal(find('p:contains(top level component)').length, 1, "The top level component was rendered");
+  assert.equal(find('#component-title:contains(Component Title)').length, 1, "Passed in attributes can be used");
 });
 
 test('using component events', function(assert) {
   assert.expect(2);
 
-  visit('/').then(function() {
-    assert.equal(find("#expanded-content").length, 0, "Expanded content is hidden at first");
-  });
+  assert.equal(find("#expanded-content").length, 0, "Expanded content is hidden at first");
 
   click('#toggle-expanded').then(function() {
     assert.equal(find("#expanded-content").length, 1, "The expanded content is showing");
@@ -47,10 +45,8 @@ test('using component events', function(assert) {
 test('using nested components', function(assert) {
   assert.expect(3);
 
-  visit('/').then(function() {
-    assert.equal(find('p:contains(A nested component)').length, 1, "The nested component was rendered");
-    assert.equal(find("#expanded-content").length, 0, "Expanded content is hidden at first");
-  });
+  assert.equal(find('p:contains(A nested component)').length, 1, "The nested component was rendered");
+  assert.equal(find("#expanded-content").length, 0, "Expanded content is hidden at first");
 
   click('#nested-component-toggle-expanded').then(function() {
     assert.equal(find("#expanded-content").length, 1, "The expanded content is showing");
@@ -58,7 +54,5 @@ test('using nested components', function(assert) {
 });
 
 test('not rendering the application template', function(assert) {
-  visit('/').then(function() {
-    assert.equal(find("#application-template").length, 0, "Application template was not rendered");
-  });
+  assert.equal(find("#application-template").length, 0, "Application template was not rendered");
 });

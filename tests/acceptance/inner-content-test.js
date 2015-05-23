@@ -16,6 +16,8 @@ module('Acceptance: Using Inner Content', {
     `;
 
     application = startApp();
+    application.boot();
+    Ember.run(application, 'advanceReadiness');
   },
 
   afterEach: function() {
@@ -27,8 +29,6 @@ module('Acceptance: Using Inner Content', {
 test('extracting innerContent', function(assert) {
   assert.expect(2);
 
-  visit('/').then(function() {
-    assert.equal(find('#element-with-inner-content > #inner-content').length, 0, "The inner content of the server-rendered element is replaced");
-    assert.equal(find('#inner-content-component > #inner-content').length, 1, "The innerContent is passed to components");
-  });
+  assert.equal(find('#element-with-inner-content > #inner-content').length, 0, "The inner content of the server-rendered element is replaced");
+  assert.equal(find('#inner-content-component > #inner-content').length, 1, "The innerContent is passed to components");
 });
