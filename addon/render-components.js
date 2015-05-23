@@ -14,7 +14,7 @@ export function getRenderComponentFor(application) {
 
     // Temporary fix for bug in `replaceIn`
     $(element).empty();
-    component.create(attributes).replaceIn(element);
+    component.create(attributes).appendTo(element);
   };
 }
 
