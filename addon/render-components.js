@@ -12,9 +12,10 @@ export function getRenderComponentFor(application) {
     var component = componentLookup.lookupFactory(name, container);
     assert(`ember-islands could not find a component named "${name}" in your Ember appliction.`, component);
 
+    var $element = $(element);
     // Temporary fix for bug in `replaceIn`
-    $(element).empty();
-    component.create(attributes).appendTo(element);
+    $element.empty();
+    $element.data('component-instance', component.create(attributes).appendTo(element));
   };
 }
 
