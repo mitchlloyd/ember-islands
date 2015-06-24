@@ -14,12 +14,6 @@ This addon should be installed inside of an ember-cli project.
 ember install ember-islands
 ```
 
-If you're using a version of Ember prior to 1.13, install the `0.5.1` version, like so:
-
-```
-ember install ember-islands@0.5.1
-```
-
 ## Usage
 
 ```html
