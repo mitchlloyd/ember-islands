@@ -4,8 +4,19 @@ var $ = Ember.$;
 
 // Do a little dance with Ember to create a function that can render
 // components for the given application.
-export function getRenderComponentFor(application) {
-  var container = application.__container__;
+export function getRenderComponentFor(instance_or_application) {
+
+  var container;
+  if (instance_or_application.container) {
+    container = instance_or_application.container;
+  } else if (instance_or_application.__container__) {
+    container = instance_or_application.__container__;
+  } else {
+    Ember.assert("ember-islands doesn't know how to render components for this" +
+      "version of Ember. Please report this issue to https://github.com/mitchlloyd/ember-islands" +
+      `with the version of Ember you are using (${Ember.VERSION})`);
+  }
+
   var componentLookup = container.lookup('component-lookup:main');
 
   return function renderComponent(name, attributes, element) {
@@ -32,8 +43,8 @@ function componentAttributes(element) {
   return attrs;
 }
 
-export default function renderComponents(application) {
-  var renderComponent = getRenderComponentFor(application);
+export default function renderComponents(instance_or_application) {
+  var renderComponent = getRenderComponentFor(instance_or_application);
 
   $('[data-component]').each(function() {
     var name = this.getAttribute('data-component');

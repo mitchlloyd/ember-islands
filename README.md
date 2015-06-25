@@ -11,7 +11,7 @@ connected to the same Ember app.
 This addon should be installed inside of an ember-cli project.
 
 ```
-ember install:addon ember-islands
+ember install ember-islands
 ```
 
 ## Usage

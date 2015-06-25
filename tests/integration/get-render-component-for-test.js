@@ -10,7 +10,10 @@ var application;
 module('Integration: Finding Components', {
   beforeEach: function() {
     application = startApp();
-    renderComponent = getRenderComponentFor(application);
+    application.boot();
+    Ember.run(application, 'advanceReadiness');
+
+    renderComponent = getRenderComponentFor(application.__deprecatedInstance__);
   },
 
   afterEach: function() {
