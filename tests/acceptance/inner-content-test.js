@@ -30,5 +30,5 @@ test('extracting innerContent', function(assert) {
   assert.expect(2);
 
   assert.equal(find('#element-with-inner-content > #inner-content').length, 0, "The inner content of the server-rendered element is replaced");
-  assert.equal(find('#inner-content-component > #inner-content').length, 1, "The innerContent is passed to components");
+  assert.equal(find('.inner-content-component > #inner-content').length, 1, "The innerContent is passed to components");
 });
