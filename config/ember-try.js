@@ -13,12 +13,9 @@ module.exports = {
       }
     },
     {
-      name: 'Ember Canary',
+      name: 'Ember 2.1',
       dependencies: {
-        'ember': 'canary'
-      },
-      resolutions: {
-        'ember': 'canary'
+        'ember': '2.1.0'
       }
     }
   ]
