@@ -4,7 +4,8 @@ import renderComponents from 'ember-islands/render-components';
 var get = Ember.get;
 var set = Ember.set;
 
-export function initialize(registry, application) {
+export function initialize() {
+  let application = arguments[1] || arguments[0];
   if (get(application, 'EMBER_ISLANDS.bypass')) {
     set(application.__deprecatedInstance__, 'EMBER_ISLANDS', {bypass: true});
   }

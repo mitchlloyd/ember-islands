@@ -2,20 +2,29 @@ import Ember from 'ember';
 var assert = Ember.assert;
 var $ = Ember.$;
 
-// Do a little dance with Ember to create a function that can render
-// components for the given application.
-export function getRenderComponentFor(instance_or_application) {
+function getLookupContainer(instance_or_application) {
+  let container;
 
-  var container;
-  if (instance_or_application.container) {
+  if (instance_or_application.lookup) { // 2.1+
+    container = instance_or_application;
+  } else if (instance_or_application.container) { // 1.13-2.1
     container = instance_or_application.container;
-  } else if (instance_or_application.__container__) {
+  } else if (instance_or_application.__container__) { // 1.12
     container = instance_or_application.__container__;
   } else {
     Ember.assert("ember-islands doesn't know how to render components for this" +
       "version of Ember. Please report this issue to https://github.com/mitchlloyd/ember-islands" +
       `with the version of Ember you are using (${Ember.VERSION})`);
   }
+
+  return container;
+}
+
+// Do a little dance with Ember to create a function that can render
+// components for the given application.
+export function getRenderComponentFor(instance_or_application) {
+
+  var container = getLookupContainer(instance_or_application);
 
   var componentLookup = container.lookup('component-lookup:main');
 
