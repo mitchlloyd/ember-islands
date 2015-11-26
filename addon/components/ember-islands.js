@@ -8,10 +8,17 @@ export default Ember.Component.extend({
     this._super(...arguments);
     this.renderComponent = getRenderComponentFor(this);
     this.componentsToRender = queryIslandComponents();
+    this.renderedComponents = [];
   },
 
   didInsertElement() {
-    this.componentsToRender.forEach(this.renderComponent);
+    this.renderedComponents = this.componentsToRender.map(this.renderComponent);
+  },
+
+  didDestroyElement() {
+    this.renderedComponents.forEach((renderedComponent) => {
+      renderedComponent.remove();
+    });
   }
 });
 
@@ -38,7 +45,9 @@ function getRenderComponentFor(emberObject) {
 
     // Work around for #replaceIn bug
     $(element).empty();
-    component.create(attrs).appendTo(element);
+    let componentInstance = component.create(attrs);
+    componentInstance.appendTo(element);
+    return componentInstance;
   };
 }
 

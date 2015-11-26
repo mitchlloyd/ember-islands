@@ -17,6 +17,26 @@ test('it renders an island component', function(assert) {
   assert.equal($('.top-level-component').length, 1);
 });
 
+test('it tears down an island component', function(assert) {
+  document.getElementById('ember-testing').innerHTML = `
+    <div data-component="top-level-component"></div>
+  `;
+
+  this.set('isShowing', true);
+
+  this.render(hbs`
+    {{#if isShowing}}
+      {{ember-islands}}
+    {{/if}}
+  `);
+
+  assert.equal($('.top-level-component').length, 1);
+
+  this.set('isShowing', false);
+
+  assert.equal($('.top-level-component').length, 0);
+});
+
 test("Provides usefull error message when a component can't be found", function(assert) {
   document.getElementById('ember-testing').innerHTML = `
     <div data-component="unknown-component"></div>
