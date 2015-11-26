@@ -32,11 +32,13 @@ function componentAttributes(element) {
 function getRenderComponentFor(emberObject) {
   let componentLookup = getOwner(emberObject).lookup('component-lookup:main');
 
-  return function renderComponentWithComponentLookup({ name, attrs, element }) {
+  return function renderComponent({ name, attrs, element }) {
     let component = componentLookup.lookupFactory(name);
     assert(`ember-islands could not find a component named "${name}" in your Ember appliction.`, component);
 
-    component.create(attrs).replaceIn(element);
+    // Work around for #replaceIn bug
+    $(element).empty();
+    component.create(attrs).appendTo(element);
   };
 }
 
