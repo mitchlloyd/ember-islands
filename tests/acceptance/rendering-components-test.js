@@ -15,8 +15,6 @@ module('Acceptance: Rendering Components', {
     `;
 
     application = startApp();
-    application.boot();
-    Ember.run(application, 'advanceReadiness');
   },
 
   afterEach: function() {
@@ -27,28 +25,41 @@ module('Acceptance: Rendering Components', {
 
 test('rendering a component with an attribute', function(assert) {
   assert.expect(2);
+  visit('/');
 
-  assert.equal(find('p:contains(top level component)').length, 1, "The top level component was rendered");
-  assert.equal(find('#component-title:contains(Component Title)').length, 1, "Passed in attributes can be used");
+  andThen(function() {
+    assert.equal(find('p:contains(top level component)').length, 1, "The top level component was rendered");
+    assert.equal(find('#component-title:contains(Component Title)').length, 1, "Passed in attributes can be used");
+  });
 });
 
 test('using component events', function(assert) {
   assert.expect(2);
+  visit('/');
 
-  assert.equal(find("#expanded-content").length, 0, "Expanded content is hidden at first");
+  andThen(function() {
+    assert.equal(find("#expanded-content").length, 0, "Expanded content is hidden at first");
+  });
 
-  click('#toggle-expanded').then(function() {
+  click('#toggle-expanded');
+
+  andThen(function() {
     assert.equal(find("#expanded-content").length, 1, "The expanded content is showing");
   });
 });
 
 test('using nested components', function(assert) {
   assert.expect(3);
+  visit('/');
 
-  assert.equal(find('p:contains(A nested component)').length, 1, "The nested component was rendered");
-  assert.equal(find("#expanded-content").length, 0, "Expanded content is hidden at first");
+  andThen(function() {
+    assert.equal(find('p:contains(A nested component)').length, 1, "The nested component was rendered");
+    assert.equal(find("#expanded-content").length, 0, "Expanded content is hidden at first");
+  });
 
-  click('#nested-component-toggle-expanded').then(function() {
+  click('#nested-component-toggle-expanded');
+
+  andThen(function() {
     assert.equal(find("#expanded-content").length, 1, "The expanded content is showing");
   });
 });
