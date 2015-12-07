@@ -18,7 +18,7 @@ ember install ember-islands
 
 ## Usage
 
-Add a placeholder for an Ember Component inside your HTML.
+Add a placeholder for an Ember Component inside your server-rendered HTML.
 
 ```html
 <div data-component='my-component' data-attrs='{"title": "Component Title"}'>
@@ -39,8 +39,8 @@ Next define a component for that placeholder.
 Ember Islands parses the JSON data that you pass in the `data-attrs` attribute
 and sends it to the component as attributes. Any content within your tag
 (`innerHTML`) is passed as the `innerContent` attribute. Keep in mind that
-`innerContent` is unescaped HTML that you should should call `safeString()` on
-before rendering.
+`innerContent` is HTML that will be escaped if you don't call `safeString()` on
+it before rendering.
 
 Finally render the `{{ember-islands}}` component in your `application.hbs` file.
 
