@@ -1,5 +1,6 @@
 import Ember from 'ember';
-const { $, getOwner, assert } = Ember;
+import getOwner from 'ember-getowner-polyfill';
+const { $, assert } = Ember;
 
 export default Ember.Component.extend({
   tagName: '',
