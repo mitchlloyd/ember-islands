@@ -21,26 +21,68 @@ ember install ember-islands
 Add a placeholder for an Ember Component inside your server-rendered HTML.
 
 ```html
-<div data-component='my-component' data-attrs='{"title": "Component Title"}'>
-  <p>Some optional innerContent</p>
+<div
+  data-component='user-profile'
+  data-attrs='{"name": "Sally User", "id": "4"}'>
+
+  <p>Sally likes hiking in the wilderness</p>
+
 </div>
 ```
 
-Next define a component for that placeholder.
+* `data-component` names the component to render into this placeholder.
+* `data-attrs` is a JSON object that will become the component's `attrs`.
+* Content inside of the placeholder tag (`innerHTML`) will be the component's
+  `innerContent` attribute.
+
+Next define a component for that placeholder. In this example we'll show the
+details of a user when someone clicks on their name.
 
 ```handlebars
-{{! inside of app/templates/components/my-component}}
+{{! inside of app/templates/components/user-profile.hbs}}
 
-{{title}}
+<h2 {{action 'showDetails'}}>
+  {{name}}
+</h2>
 
-{{{innerContent}}}
+{{#if isShowingDetails}}
+  <p>{{description}}</p>
+  {{user.email}}
+  {{user.address}}
+{{/if}}
 ```
 
-Ember Islands parses the JSON data that you pass in the `data-attrs` attribute
-and sends it to the component as attributes. Any content within your tag
-(`innerHTML`) is passed as the `innerContent` attribute. Keep in mind that
-`innerContent` is HTML that will be escaped if you don't call `htmlSafe()` on
-it before rendering.
+Inside of the component JavaScript file we'll load a user from the Ember Data
+store when the name is clicked and reveal the details portion of the template.
+
+```javascript
+// inside of app/components/user-profile.js
+
+import Ember from 'ember'
+const { Component, inject, computed } = Ember;
+
+export default Component.extend({
+  store: inject.service(),
+
+  init() {
+    this._super(...arguments);
+    this.description = this.get('innerContent').htmlSafe();
+  }
+
+  actions: {
+    showDetails() {
+      this.get('store').findRecord('user', this.get('id')).then((user) => {
+        this.set('user', user);
+      });
+
+      this.set('isShowingDetails', true);
+    }
+  }
+})
+```
+
+Notice that before rendering `innerContent` we called `htmlSafe` on it. Ember
+will escape this HTML if we don't mark it as safe.
 
 If you want to render island components on any server-rendered page that users
 visit you can add the following code to your `app/router.js` file.
