@@ -84,14 +84,29 @@ export default Component.extend({
 Notice that before rendering `innerContent` we called `htmlSafe` on it. Ember
 will escape this HTML if we don't mark it as safe.
 
-If you want to render island components on any server-rendered page that users
-visit you can add the following code to your `app/router.js` file.
+If you want to render island components on any server-rendered page you can add
+the `{{ember-islands}}` component to your `application.hbs` template file and
+configure the router `locationType` to ignore the URL.
+
+```handlebars
+{{! inside of app/templates/application.hbs}}
+
+{{ember-islands}}
+```
 
 ```javascript
-Router.map(function() {
-  this.route('ember-islands', {path: '/'});
-  this.route('ember-islands', {path: '/*glob'});
-});
+// in /config/environment.js
+
+module.exports = function(environment) {
+  var ENV = {
+    // ... other config
+
+    locationType: 'none',
+
+    // ... more config
+  }
+}
+
 ```
 
 More advanced uses are described in [Rendering Ember Islands Based on URL Paths](#rendering-ember-islands-based-on-url-paths).
@@ -99,20 +114,11 @@ More advanced uses are described in [Rendering Ember Islands Based on URL Paths]
 
 ## Rendering Ember Islands Based on URL paths
 
-If you're exclusively using this library to render Ember components you can
-direct all paths to the `ember-islands` template included in this addon.
-
-```javascript
-Router.map(function() {
-  this.route('ember-islands', {path: '/'});
-  this.route('ember-islands', {path: '/*glob'});
-});
-```
-
-However, you can also use Ember's routing and the `{{ember-islands}}` component
-to choose when to render island components. Let's look at an example of using a
-combination of island components and `rootElement` configuration to handle
-different cases.
+Exclusively using Ember Islands is a great way to start introducing components
+into an application. However, you can also use Ember's routing and the
+`{{ember-islands}}` component to choose when to render island components. Let's
+look at an example of using a combination of island components and `rootElement`
+configuration to handle different cases.
 
 It's useful to control where your Ember Application is rendered so that we
 could, for instance, maintain a consistent header and footer across the
@@ -120,11 +126,14 @@ server-rendered application. To do that we set the `rootElement` in
 `config/environment.js`.
 
 ```javascript
-// in config/environment.js
+// in /config/environment.js
 
 module.exports = function(environment) {
   var ENV = {
     // ... other config
+
+    // Note that we have locationType set to something other than 'none'
+    locationType: 'auto',
 
     APP: {
       rootElement: '#ember-application'
@@ -148,7 +157,7 @@ Your sever-rendered HTML might look like this:
 
 <div id="ember-application">
 
-  <h2>Soak Up These Metrics:</h2>
+  <h2>Soak Up These Metrics</h2>
 
   <!-- The sign-ups-per-day component will be rendered here. -->
   <div data-component="sign-ups-per-day"></div>
@@ -164,10 +173,12 @@ Your sever-rendered HTML might look like this:
 ```
 
 Notice that your island components must be placed inside of the Ember
-Application container. Otherwise they will not receive clicks and other mouse
+Application container. Otherwise they will not receive clicks or other mouse
 events.
 
-Your matching `dashboard.hbs` template would render the `ember-islands` component.
+Your matching `dashboard.hbs` template will render the `ember-islands` component
+which will inject the `sign-ups-per-day` and `net-promoter-score` components
+into your static content.
 
 ```handlebars
 {{! inside of app/templates/dashboard.hbs}}
@@ -182,14 +193,16 @@ In this case your server-rendered HTML could look like this:
 ```html
 <header>Header</header>
 
+<h2>Get Paid</h2>
+
 <!-- Your Ember app will be rendered here. -->
 <div id="ember-application"></div>
 
 <footer>Footer</footer>
 ```
 
-And then the `app/templates/invoices.hbs` template in your Ember application
-would render HTML and components in the typical Ember way:
+In the `app/templates/invoices.hbs` template you can render HTML and components
+in the typical Ember way:
 
 ```handlebars
 {{! inside of app/templates/invoices.hbs}}
