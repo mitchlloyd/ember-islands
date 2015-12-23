@@ -16,6 +16,10 @@ This addon should be installed inside of an Ember CLI project.
 ember install ember-islands
 ```
 
+Version 1.x of this addon is tested against Ember 2.x versions. If you have
+trouble with an earlier version of Ember try using version 0.5.x of Ember
+Islands.
+
 ## Usage
 
 Add a placeholder for an Ember Component inside your server-rendered HTML.
