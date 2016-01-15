@@ -1,6 +1,6 @@
 {
   "name": "ember-islands",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0",
   "description": "Render Ember components 'outside' of an Ember application to create 'Islands of Richness' in a server-rendered application.",
   "directories": {
     "doc": "doc",
