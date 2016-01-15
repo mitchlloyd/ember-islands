@@ -2,10 +2,12 @@
 
 module.exports = {
   scenarios: [
+    // Issue with ember-template compiler on Ember 2.0.3
+    // https://github.com/emberjs/ember.js/issues/12820
     {
       name: 'ember-2.0',
       dependencies: {
-        "ember": "~2.0.0"
+        "ember": "2.0.2"
       }
     },
     {
