@@ -318,8 +318,8 @@ the build in certain environments
 
 ```javascript
 // Inside of ember-cli-build
-if (EmberApp.env() !== ‘test’) {
-  vendorFiles[‘jquery.js’] = false;
+if (EmberApp.env() !== 'test') {
+  vendorFiles['jquery.js'] = false;
 }
 ```
 
