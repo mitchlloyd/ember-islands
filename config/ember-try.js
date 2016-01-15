@@ -1,27 +1,34 @@
+/* jshint node: true */
+
 module.exports = {
   scenarios: [
+    // Issue with ember-template compiler on Ember 2.0.3
+    // https://github.com/emberjs/ember.js/issues/12820
     {
-      name: 'Ember 1.12',
+      name: 'ember-2.0',
       dependencies: {
-        'ember': '1.12.1'
+        "ember": "2.0.2"
       }
     },
     {
-      name: 'Ember 1.13',
+      name: 'ember-2.1',
       dependencies: {
-        'ember': '1.13.11'
+        "ember": "~2.1.0"
       }
     },
     {
-      name: 'Ember 2.1',
+      name: 'ember-2.2',
       dependencies: {
-        'ember': '2.1.0'
+        "ember": "~2.2.0"
       }
     },
     {
-      name: 'Ember 2.2',
+      name: 'ember-canary',
       dependencies: {
-        'ember': '2.2.0'
+        "ember": "components/ember#canary"
+      },
+      resolutions: {
+        "ember": "canary"
       }
     }
   ]
