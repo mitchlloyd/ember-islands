@@ -1,4 +1,8 @@
-# ember-islands
+<img
+  src="http://mitchlloyd.com/ember-islands/images/ember-islands-logo-700.png"
+  width="350px"
+  alt="Ember Islands Logo"
+  title="Ember Islands Logo">
 
 [ ![Codeship Status for mitchlloyd/ember-islands](https://codeship.com/projects/0de87f00-c59f-0132-5306-3a52b81c571d/status?branch=master)](https://codeship.com/projects/74441)
 
