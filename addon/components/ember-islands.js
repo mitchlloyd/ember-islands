@@ -18,7 +18,7 @@ export default Ember.Component.extend({
 
   didDestroyElement() {
     this.renderedComponents.forEach((renderedComponent) => {
-      renderedComponent.remove();
+      renderedComponent.destroy();
     });
   }
 });
