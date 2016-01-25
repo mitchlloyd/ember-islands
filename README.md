@@ -12,6 +12,8 @@ This addon provides a practical way to introduce Ember into a server-rendered
 application. It can facilitate a gradual redesign from a server-rendered
 application to a client-rendered application.
 
+[![Introduction to ember-islands at Global Ember Meetup](https://i.vimeocdn.com/video/552191661.png?mw=640&mh=360)](https://vimeo.com/152241622)
+
 ## Installation
 
 This addon should be installed inside of an Ember CLI project.
