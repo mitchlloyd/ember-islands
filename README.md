@@ -66,8 +66,8 @@ store when the name is clicked and reveal the details portion of the template.
 ```javascript
 // inside of app/components/user-profile.js
 
-import Ember from 'ember'
-const { Component, inject, computed } = Ember;
+import Ember from 'ember';
+const { Component, inject } = Ember;
 
 export default Component.extend({
   store: inject.service(),
@@ -75,7 +75,7 @@ export default Component.extend({
   init() {
     this._super(...arguments);
     this.description = this.get('innerContent').htmlSafe();
-  }
+  },
 
   actions: {
     showDetails() {
