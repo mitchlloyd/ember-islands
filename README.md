@@ -322,9 +322,15 @@ the build in certain environments
 
 ```javascript
 // Inside of ember-cli-build
+var vendorFiles = {};
+
 if (EmberApp.env() !== 'test') {
-  vendorFiles['jquery.js'] = false;
+  vendorFiles['jquery.js'] = null;
 }
+
+var app = new EmberApp({
+  vendorFiles: vendorFiles,
+});
 ```
 
 You may only want to only include duplicated dependencies in your testing
