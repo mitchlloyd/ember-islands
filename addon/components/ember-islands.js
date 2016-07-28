@@ -38,10 +38,10 @@ function componentAttributes(element) {
 }
 
 function getRenderComponentFor(emberObject) {
-  let componentLookup = getOwner(emberObject).lookup('component-lookup:main');
+  let owner = getOwner(emberObject);
 
   return function renderComponent({ name, attrs, element }) {
-    let component = componentLookup.lookupFactory(name);
+    let component = lookupComponent(owner, name);
     assert(`ember-islands could not find a component named "${name}" in your Ember appliction.`, component);
 
     // Work around for #replaceIn bug
@@ -62,4 +62,17 @@ function queryIslandComponents() {
   });
 
   return components;
+}
+
+function lookupComponent(owner, name) {
+  let componentLookupKey = `component:${name}`;
+  let layoutLookupKey = `template:components/${name}`;
+  let layout = owner.lookup(layoutLookupKey);
+
+  if (layout) {
+    owner.inject(componentLookupKey, 'layout', layoutLookupKey);
+  }
+
+  let component = owner._lookupFactory(componentLookupKey);
+  return component;
 }
