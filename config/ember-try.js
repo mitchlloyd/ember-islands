@@ -23,13 +23,19 @@ module.exports = {
       }
     },
     {
-      name: 'ember-canary',
+      name: 'ember-2.7',
       dependencies: {
-        "ember": "components/ember#canary"
-      },
-      resolutions: {
-        "ember": "canary"
+        "ember": "~2.7.0"
       }
-    }
+    },
+    // {
+    //   name: 'ember-canary',
+    //   dependencies: {
+    //     "ember": "components/ember#canary"
+    //   },
+    //   resolutions: {
+    //     "ember": "canary"
+    //   }
+    // }
   ]
 };
