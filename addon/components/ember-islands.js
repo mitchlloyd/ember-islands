@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import getOwner from 'ember-getowner-polyfill';
-const { $, assert } = Ember;
+const { $, assert, Component } = Ember;
 
 export default Ember.Component.extend({
   tagName: '',
@@ -74,5 +74,11 @@ function lookupComponent(owner, name) {
   }
 
   let component = owner._lookupFactory(componentLookupKey);
+
+  if (layout && !component) {
+    owner.register(componentLookupKey, Component);
+    component = owner._lookupFactory(componentLookupKey);
+  }
+
   return component;
 }
