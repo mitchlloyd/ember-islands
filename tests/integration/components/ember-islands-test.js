@@ -19,6 +19,30 @@ test('it renders an island component', function(assert) {
   assert.equal($('.top-level-component').length, 1);
 });
 
+test("rendering a component that only has an hbs template file", function(assert) {
+  document.getElementById('ember-testing').innerHTML = `
+    <div data-component="hbs-only-component"></div>
+  `;
+
+  this.render(hbs`
+    {{ember-islands}}
+  `);
+
+  assert.equal($('.hbs-only-component').length, 1);
+});
+
+test("rendering a component that only has a JavaScript file", function(assert) {
+  document.getElementById('ember-testing').innerHTML = `
+    <div data-component="js-only-component"></div>
+  `;
+
+  this.render(hbs`
+    {{ember-islands}}
+  `);
+
+  assert.equal($('.js-only-component').length, 1);
+});
+
 test('it tears down an island component', function(assert) {
   let teardownCalls = [];
 
