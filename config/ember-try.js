@@ -28,14 +28,14 @@ module.exports = {
         "ember": "~2.7.0"
       }
     },
-    // {
-    //   name: 'ember-canary',
-    //   dependencies: {
-    //     "ember": "components/ember#canary"
-    //   },
-    //   resolutions: {
-    //     "ember": "canary"
-    //   }
-    // }
+    {
+      name: 'ember-canary',
+      dependencies: {
+        "ember": "components/ember#canary"
+      },
+      resolutions: {
+        "ember": "canary"
+      }
+    }
   ]
 };

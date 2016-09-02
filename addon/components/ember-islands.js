@@ -16,7 +16,7 @@ export default Ember.Component.extend({
     this.renderedComponents = this.componentsToRender.map(this.renderComponent);
   },
 
-  didDestroyElement() {
+  willDestroyElement() {
     this.renderedComponents.forEach((renderedComponent) => {
       renderedComponent.destroy();
     });
@@ -41,10 +41,13 @@ function getRenderComponentFor(emberObject) {
   let owner = getOwner(emberObject);
 
   return function renderComponent({ name, attrs, element }) {
-    let component = lookupComponent(owner, name);
+    let { component, layout } = lookupComponent(owner, name);
     assert(`ember-islands could not find a component named "${name}" in your Ember appliction.`, component);
 
-    // Work around for #replaceIn bug
+    if (layout) {
+      attrs.layout = layout;
+    }
+
     $(element).empty();
     let componentInstance = component.create(attrs);
     componentInstance.appendTo(element);
@@ -67,12 +70,7 @@ function queryIslandComponents() {
 function lookupComponent(owner, name) {
   let componentLookupKey = `component:${name}`;
   let layoutLookupKey = `template:components/${name}`;
-  let layout = owner.lookup(layoutLookupKey);
-
-  if (layout) {
-    owner.inject(componentLookupKey, 'layout', layoutLookupKey);
-  }
-
+  let layout = owner._lookupFactory(layoutLookupKey);
   let component = owner._lookupFactory(componentLookupKey);
 
   if (layout && !component) {
@@ -80,5 +78,5 @@ function lookupComponent(owner, name) {
     component = owner._lookupFactory(componentLookupKey);
   }
 
-  return component;
+  return { component, layout };
 }
