@@ -14,7 +14,9 @@ application to a client-rendered application.
 
 ## Installation
 
-This addon should be installed inside of an Ember CLI project.
+If you're starting a new Ember project, follow the Getting Started > Quick Start
+section of the [Ember Guides](https://guides.emberjs.com). Once you have an Ember
+CLI project you can install Ember Islands.
 
 ```
 ember install ember-islands
