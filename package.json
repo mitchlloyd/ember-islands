@@ -41,7 +41,8 @@
     "ujs"
   ],
   "dependencies": {
-    "ember-getowner-polyfill": "1.0.0"
+    "ember-getowner-polyfill": "1.0.0",
+    "ember-wormhole": "0.5.0"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
