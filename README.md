@@ -235,18 +235,47 @@ To get started, add your `vendor.js` and `<application-name>.js` files into your
 server-rendered page where you want to use Ember Islands. You can use the
 `app/index.html` file from your Ember CLI project as a guide.
 
-### Storing Config Data
+### Escaping JSON for the data-attrs Attribute
 
-By default Ember CLI stores configuration from `config/environment.js` in a
-`meta` tag. It will be more useful to have Ember CLI to build the config object
-into your compiled JavaScript files.
+You may find yourself passing JSON that contains quotes or other characters that
+aren't valid inside of HTML attributes.
+
+```html
+<div data-component="my-age" data-attrs="{"data": "I'm < 100 years old"}"></div>
+```
+
+Escape HTML characters in JSON data before adding it to your markup. For
+instance in Ruby:
+
+```ruby
+CGI::escapeHTML %({"data": "I\'m < 100 years old"})
+# => "{&quot;data&quot;: &quot;I&#39;m &lt; 100 years old&quot;}"
+```
+
+```html
+<div data-component="my-age" data-attrs="{&quot;data&quot;: &quot;I&#39;m &lt; 100 years old&quot;}"></div>
+```
+
+Inside of your component, this string will be unescaped:
 
 ```javascript
-// Inside of ember-cli-build.js
-var app = new EmberApp({
-  storeConfigInMeta: false
-});
+// inside of app/components/my-age.js
+
+import Ember from 'ember';
+const { Component } = Ember;
+
+export default Component.extend({
+  init() {
+    this._super(...arguments);
+    console.log(this.get('data'));
+    // '{"data": "I'm < 100 years old"}'
+  }
+})
 ```
+
+Your server-side language or framework will have some means to escape a string
+for HTML. Rails has the `h` template helper and the next example shows a
+helper that will produce HTML-escaped JSON.
 
 ### Example Rails Usage with Helper
 
@@ -274,6 +303,19 @@ Then you can use that helper in your view files.
 
 ```html+erb
 <%= ember_component 'my-component', title: @post.title, body: @post.body %>
+```
+
+### Storing Config Data
+
+By default Ember CLI stores configuration from `config/environment.js` in a
+`meta` tag. It will be more useful to have Ember CLI to build the config object
+into your compiled JavaScript files.
+
+```javascript
+// Inside of ember-cli-build.js
+var app = new EmberApp({
+  storeConfigInMeta: false
+});
 ```
 
 ### Fingerprinting
