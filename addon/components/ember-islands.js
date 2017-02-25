@@ -1,5 +1,5 @@
 import Ember from 'ember';
-const { $, assert, Component, getOwner } = Ember;
+const { $, Component, getOwner, Logger } = Ember;
 
 export default Ember.Component.extend({
   tagName: '',
@@ -41,7 +41,12 @@ function getRenderComponentFor(emberObject) {
 
   return function renderComponent({ name, attrs, element }) {
     let { component, layout } = lookupComponent(owner, name);
-    assert(`ember-islands could not find a component named "${name}" in your Ember appliction.`, component);
+    Ember.assert(missingComponentMessage(name), component);
+
+    // This can only be true in production mode where assert is a no-op.
+    if (!component) {
+      ({ component, layout } = provideMissingComponentInProductionMode(owner, name));
+    }
 
     if (layout) {
       attrs.layout = layout;
@@ -78,4 +83,14 @@ function lookupComponent(owner, name) {
   }
 
   return { component, layout };
+}
+
+function missingComponentMessage(name) {
+  return `ember-islands could not find a component named "${name}" in your Ember application.`;
+}
+
+function provideMissingComponentInProductionMode(owner, name) {
+  Logger.error(missingComponentMessage(name));
+
+  return lookupComponent(owner, 'ember-islands/missing-component');
 }
