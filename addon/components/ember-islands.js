@@ -6,6 +6,8 @@ export default Ember.Component.extend({
 
   init() {
     this._super(...arguments);
+    if (!$) return;
+
     this.renderComponent = getRenderComponentFor(this);
     this.componentsToRender = queryIslandComponents();
     this.renderedComponents = [];
