@@ -86,7 +86,7 @@ function lookupComponent(owner, name) {
 }
 
 function missingComponentMessage(name) {
-  return `ember-islands could not find a component named "${name}" in your Ember appliction.`;
+  return `ember-islands could not find a component named "${name}" in your Ember application.`;
 }
 
 function provideMissingComponentInProductionMode(owner, name) {

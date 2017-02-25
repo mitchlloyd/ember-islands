@@ -43,6 +43,6 @@ test('rendering the found component', function(assert) {
 
   andThen(function() {
     assert.equal(find('p:contains(top level component)').length, 1, "The top level component was rendered");
-    assert.deepEqual(errors, [`ember-islands could not find a component named "oops-not-component" in your Ember appliction.`], 'Logs an error');
+    assert.deepEqual(errors, [`ember-islands could not find a component named "oops-not-component" in your Ember application.`], 'Logs an error');
   });
 });
