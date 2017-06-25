@@ -1,5 +1,8 @@
 import Ember from 'ember';
+import Reconciler from 'ember-islands/utils/reconciler';
 const { $, Component, getOwner, Logger } = Ember;
+
+let eiInstance;
 
 export default Ember.Component.extend({
   tagName: '',
@@ -8,17 +11,38 @@ export default Ember.Component.extend({
     this._super(...arguments);
     this.renderComponent = getRenderComponentFor(this);
     this.componentsToRender = queryIslandComponents();
-    this.renderedComponents = [];
+    this.reconciler = new Reconciler();
+
+    eiInstance = this;
   },
 
   didInsertElement() {
-    this.renderedComponents = this.componentsToRender.map(this.renderComponent);
+    this.reconcile();
+  },
+
+  reconcile() {
+    let componentsToRender = queryIslandComponents();
+    let components = this.reconciler.reconcileAgainst(componentsToRender);
+
+    components.initialRender.forEach(c => {
+      let instance = this.renderComponent(c);
+      this.reconciler.addRenderedComponent({ instance, container: c.element });
+    });
+
+    components.update.forEach(({ instance, attrs }) => {
+      delete attrs.innerContent;
+      instance.setProperties(attrs);
+    });
+
+    components.destroy.forEach(instance => instance.destroy());
   },
 
   willDestroyElement() {
-    this.renderedComponents.forEach((renderedComponent) => {
-      renderedComponent.destroy();
-    });
+    this.reconciler.forEachRenderedComponent(c => c.destroy());
+  },
+
+  getRenderedComponents() {
+    return this.reconciler.renderedComponentsAsArray();
   }
 });
 
@@ -93,4 +117,8 @@ function provideMissingComponentInProductionMode(owner, name) {
   Logger.error(missingComponentMessage(name));
 
   return lookupComponent(owner, 'ember-islands/missing-component');
+}
+
+export function getInstance() {
+  return eiInstance;
 }

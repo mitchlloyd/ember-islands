@@ -1,1 +1,1 @@
-export { default } from 'ember-islands/components/ember-islands';
+export { default, getInstance } from 'ember-islands/components/ember-islands';
