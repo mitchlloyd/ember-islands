@@ -2,7 +2,10 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import wait from 'ember-test-helpers/wait';
 import hbs from 'htmlbars-inline-precompile';
-import { getInstance } from '../../../components/ember-islands';
+import {
+  pleaseDontUseThisExportToGetTheEmberIslandsInstance as getInstance,
+  reconcile
+} from 'ember-islands';
 const { run } = Ember;
 
 moduleForComponent('ember-islands', 'Integration | Component | rerendering', {
@@ -43,7 +46,7 @@ test('when the DOM does not change', function(assert) {
     'Precondition: tracking 1 rendered component'
   );
 
-  getInstance().reconcile();
+  reconcile();
 
   assert.equal(
     componentElement.text().trim(),
@@ -97,7 +100,7 @@ test('when a placeholder is removed', function(assert) {
   `);
 
   run(() => {
-    getInstance().reconcile();
+    reconcile();
   });
 
   return wait().then(function() {
@@ -142,7 +145,7 @@ test('when a new component placeholder is added', function(assert) {
   `);
 
   run(() => {
-    getInstance().reconcile();
+    reconcile();
   });
 
   assert.equal(
@@ -186,7 +189,7 @@ test('when attributes of a placeholder change', function(assert) {
     .attr('data-attrs', '{"title": "New Title"}');
 
   run(() => {
-    getInstance().reconcile();
+    reconcile();
   });
 
   assert.equal(
