@@ -229,6 +229,41 @@ Router.map(function() {
 });
 ```
 
+## Reconciling Ember Island Components with DOM Changes
+
+> :sparkles: This feature is available in the upcoming 1.3.0 release.
+
+If you find yourself in the unfortunate situation where you need to
+manipulate your DOM with non-Ember JavaScript _and_ keep your components in
+sync with those changes, Ember Islands still has your back.
+
+Inside of your app.js file (or any imported file for that matter) expose the
+`reconcile` function:
+
+```js
+import { reconcile } from 'ember-islands';
+window.reconcileEmberIslandComponents = reconcile;
+```
+
+The `reconcile` function supports the following cases:
+1. When encountering a new placeholder element, `reconcile` will render a new
+   component.
+1. When a previously used placeholder element has been removed, `reconcile`
+   will tear down the previously rendered component.
+1. When the `data-attrs` property on a placeholder element has been changed,
+   `reconcile` will update the previously rendered component with the new
+   attrs.
+1. When the `data-component` property on a placeholder changes, `reconcile`
+   will tear down the previously rendered component and render a new
+   component according to the new `data-component` name.
+
+:warning: Some versions of Ember before 2.15 retain top-level components
+in memory after they are destroyed. Depending on your setup this may not
+be an issue. But if you have a long-running app where users don't refresh
+the page, you may want to consider other alternatives like calling the
+[`reset`](https://www.emberjs.com/api/ember/2.15/classes/Ember.Application/methods/reset?anchor=reset)
+method on your Ember application.
+
 ## Integration Concerns
 
 To get started, add your `vendor.js` and `<application-name>.js` files into your
