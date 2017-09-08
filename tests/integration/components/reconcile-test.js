@@ -198,3 +198,64 @@ test('when attributes of a placeholder change', function(assert) {
     'Attributes are updated and state is stable'
   );
 });
+
+test('when the data-component property of a placeholder changes', function(assert) {
+  this.testContainer.html(`
+    <div data-component="stateful-component"
+         data-attrs='{"title": "Title"}'>
+      Inner Content
+    </div>
+  `);
+
+  this.render(hbs`
+    {{ember-islands}}
+  `);
+
+  let componentElement = this.testContainer.find('button');
+
+  assert.equal(
+    componentElement.text().trim(),
+    'Title, Inner Content, 0',
+    'Precondition: Rendered initial component'
+  );
+
+  assert.equal(
+    getInstance().getRenderedComponents().length,
+    1,
+    'Precondition: tracking 1 rendered component'
+  );
+
+  this.testContainer
+    .find('[data-component=stateful-component]')
+    .attr('data-component', 'top-level-component');
+
+  let previouslyRenderedComponent = getInstance().getRenderedComponents()[0];
+
+  run(() => {
+    reconcile();
+  });
+
+  assert.equal(
+    previouslyRenderedComponent.isDestroying,
+    true,
+    'previously rendered component has been destroyed'
+  );
+
+  assert.notEqual(
+    previouslyRenderedComponent.destroyCallCount,
+    0,
+    'previously rendered component destroy called at least once'
+  );
+
+  assert.notEqual(
+    this.testContainer.text().indexOf('top level component'),
+    -1,
+    'Renders the new component in the placeholder'
+  );
+
+  assert.equal(
+    getInstance().getRenderedComponents().length,
+    1,
+    'tracking 1 new rendered component'
+  );
+});

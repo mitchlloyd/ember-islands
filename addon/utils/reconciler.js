@@ -2,6 +2,9 @@ import Ember from 'ember';
 const { guidFor } = Ember;
 
 export default class Reconciler {
+  /**
+   * @param {{[elementGuid: string]: Function}} callbacks
+   */
   constructor(callbacks) {
     this.renderedComponents = {};
     this.callbacks = callbacks;
@@ -10,23 +13,28 @@ export default class Reconciler {
   reconcileAgainst(componentsToRender) {
     let nextRenderedComponents = {};
 
-    componentsToRender.forEach(c => {
-      let elementId = guidFor(c.element);
+    componentsToRender.forEach(ic => {
+      let elementGuid = guidFor(ic.element);
 
-      let instance = this.renderedComponents[elementId];
-      if (instance) {
-        c.instance = instance;
-        this.callbacks.update(c);
+      let renderedIC = this.renderedComponents[elementGuid];
+      if (renderedIC) {
+        if (renderedIC.name === ic.name) {
+          ic.instance = renderedIC.instance;
+          this.callbacks.update(ic);
+        } else {
+          this.callbacks.destroy(renderedIC.instance);
+          ic.instance = this.callbacks.initialRender(ic);
+        }
       } else {
-        instance = this.callbacks.initialRender(c);
+        ic.instance = this.callbacks.initialRender(ic);
       }
 
-      nextRenderedComponents[elementId] = instance;
+      nextRenderedComponents[elementGuid] = ic;
     });
 
     for (let key in this.renderedComponents) {
       if (!(key in nextRenderedComponents)) {
-        this.callbacks.destroy(this.renderedComponents[key]);
+        this.callbacks.destroy(this.renderedComponents[key].instance);
       }
     }
 
@@ -36,7 +44,7 @@ export default class Reconciler {
   renderedComponentsAsArray() {
     let result = [];
     for (let key in this.renderedComponents) {
-      result.push(this.renderedComponents[key]);
+      result.push(this.renderedComponents[key].instance);
     }
 
     return result;
@@ -44,7 +52,7 @@ export default class Reconciler {
 
   forEachRenderedComponent(callback) {
     for (let key in this.renderedComponents) {
-      callback(this.renderedComponents[key]);
+      callback(this.renderedComponents[key].instance);
     }
   }
 }
