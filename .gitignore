@@ -15,3 +15,6 @@
 /libpeerconnection.log
 npm-debug.log*
 testem.log
+
+# Ember try temporary files
+.node_modules.ember-try/

@@ -50,6 +50,9 @@
     "ujs"
   ],
   "ember-addon": {
-    "configPath": "tests/dummy/config"
+    "configPath": "tests/dummy/config",
+    "versionCompatibility": {
+      "ember": ">=2.0.0"
+    }
   }
 }
