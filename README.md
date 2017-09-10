@@ -231,8 +231,6 @@ Router.map(function() {
 
 ## Reconciling Ember Island Components with DOM Changes
 
-> :sparkles: This feature is available in the upcoming 1.3.0 release.
-
 If you find yourself in the unfortunate situation where you need to
 manipulate your DOM with non-Ember JavaScript _and_ keep your components in
 sync with those changes, Ember Islands still has your back.
