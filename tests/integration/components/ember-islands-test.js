@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import Ember from 'ember';
 const { Component } = Ember;
 import { moduleForComponent, test, skip } from 'ember-qunit';
