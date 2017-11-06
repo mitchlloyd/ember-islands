@@ -4,7 +4,7 @@
   alt="Ember Islands Logo"
   title="Ember Islands Logo">
 
-[ ![Codeship Status for mitchlloyd/ember-islands](https://codeship.com/projects/0de87f00-c59f-0132-5306-3a52b81c571d/status?branch=master)](https://codeship.com/projects/74441)
+[![Build Status](https://travis-ci.org/mitchlloyd/ember-islands.svg?branch=master)](https://travis-ci.org/mitchlloyd/ember-islands)
 
 Render Ember components into existing HTML.
 
