@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import Ember from 'ember';
 const { Component } = Ember;
-import { moduleForComponent, test, skip } from 'ember-qunit';
+import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('ember-islands', 'Integration | Component | ember islands', {
@@ -77,13 +77,12 @@ test('it tears down an island component', function(assert) {
 
   this.set('isShowing', false);
 
-  assert.equal($('.island-compoment').length, 0, "Component removed from DOM");
+  assert.equal($('.island-component').length, 0, "Component removed from DOM");
 
   assert.deepEqual(teardownCalls, ['willDestroyElement', 'willDestroy'], "All component teardown hooks called");
 });
 
-// Related issue: https://github.com/emberjs/ember.js/issues/15013
-skip("Provides usefull error message when a component can't be found", function(assert) {
+test("Provides useful error message when a component can't be found", function(assert) {
   document.getElementById('ember-testing').innerHTML = `
     <div data-component="unknown-component"></div>
   `;
