@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import Ember from 'ember';
 const { Component } = Ember;
-import { moduleForComponent, test } from 'ember-qunit';
+import { moduleForComponent, test, skip } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('ember-islands', 'Integration | Component | ember islands', {
@@ -82,7 +82,7 @@ test('it tears down an island component', function(assert) {
   assert.deepEqual(teardownCalls, ['willDestroyElement', 'willDestroy'], "All component teardown hooks called");
 });
 
-test("Provides useful error message when a component can't be found", function(assert) {
+testWhenAssertThrowsWorks("Provides useful error message when a component can't be found", function(assert) {
   document.getElementById('ember-testing').innerHTML = `
     <div data-component="unknown-component"></div>
   `;
@@ -93,3 +93,12 @@ test("Provides useful error message when a component can't be found", function(a
     `);
   }, /could not find a component/, "Threw the correct error message");
 });
+
+function testWhenAssertThrowsWorks(message, fn) {
+  const [major, minor] = Ember.VERSION.split('.').map(Number);
+  if (major !== 2 || minor < 12 || minor >  18) {
+    test(message, fn);
+  } else {
+    skip(message, fn);
+  }
+}
