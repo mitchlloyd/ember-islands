@@ -20,8 +20,8 @@
   },
   "repository": "http://github.com/mitchlloyd/ember-islands",
   "dependencies": {
-    "ember-getowner-polyfill": "^2.0.1",
-    "ember-cli-babel": "^6.8.2"
+    "ember-cli-babel": "^6.8.2",
+    "ember-getowner-polyfill": "^2.0.1"
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.5",
@@ -43,7 +43,7 @@
     "ember-export-application-global": "^2.0.0",
     "ember-load-initializers": "^1.0.0",
     "ember-resolver": "^4.5.0",
-    "ember-source": "^2.16.0",
+    "ember-source": "^3.7.0",
     "loader.js": "^4.0.10"
   },
   "engines": {

@@ -77,13 +77,12 @@ test('it tears down an island component', function(assert) {
 
   this.set('isShowing', false);
 
-  assert.equal($('.island-compoment').length, 0, "Component removed from DOM");
+  assert.equal($('.island-component').length, 0, "Component removed from DOM");
 
   assert.deepEqual(teardownCalls, ['willDestroyElement', 'willDestroy'], "All component teardown hooks called");
 });
 
-// Related issue: https://github.com/emberjs/ember.js/issues/15013
-skip("Provides usefull error message when a component can't be found", function(assert) {
+testWhenAssertThrowsWorks("Provides useful error message when a component can't be found", function(assert) {
   document.getElementById('ember-testing').innerHTML = `
     <div data-component="unknown-component"></div>
   `;
@@ -94,3 +93,12 @@ skip("Provides usefull error message when a component can't be found", function(
     `);
   }, /could not find a component/, "Threw the correct error message");
 });
+
+function testWhenAssertThrowsWorks(message, fn) {
+  const [major, minor] = Ember.VERSION.split('.').map(Number);
+  if (major !== 2 || minor < 12 || minor >  18) {
+    test(message, fn);
+  } else {
+    skip(message, fn);
+  }
+}
