@@ -1,6 +1,3 @@
-import Ember from 'ember';
-const { $ } = Ember;
-
 /**
  * @typedef {object} IslandComponent
  * @property {object} element - The placeholder element for this component
@@ -15,10 +12,10 @@ const { $ } = Ember;
 export default function queryIslandComponents() {
   let components = [];
 
-  $('[data-component]').each(function() {
-    let name = this.getAttribute('data-component');
-    let attrs = componentAttributes(this);
-    components.push({ attrs, name, element: this, instance: undefined });
+  document.querySelectorAll('[data-component]').forEach(function(component) {
+    let name = component.getAttribute('data-component');
+    let attrs = componentAttributes(component);
+    components.push({ attrs, name, element: component, instance: undefined });
   });
 
   return components;

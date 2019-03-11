@@ -6,6 +6,6 @@ export default Component.extend({
   classNames: ['js-only-component'],
 
   onDidInsertElement() {
-    this.$().html('js-only-component');
+    this.element.innerHTML = 'js-only-component';
   }
 });

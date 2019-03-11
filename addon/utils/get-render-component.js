@@ -1,5 +1,5 @@
 import Ember from 'ember';
-const { getOwner, Component, Logger, $ } = Ember;
+const { getOwner, Component, Logger } = Ember;
 
 export default function getRenderComponent(emberObject) {
   let owner = getOwner(emberObject);
@@ -17,7 +17,7 @@ export default function getRenderComponent(emberObject) {
       attrs.layout = layout;
     }
 
-    $(element).empty();
+    while (element.firstChild) { element.removeChild(element.firstChild); }
     let componentInstance = component.create(attrs);
     componentInstance.appendTo(element);
 
