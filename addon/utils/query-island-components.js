@@ -11,12 +11,15 @@
  */
 export default function queryIslandComponents() {
   let components = [];
+  let islandNodeList = document.querySelectorAll('[data-component]');
 
-  document.querySelectorAll('[data-component]').forEach(function(component) {
-    let name = component.getAttribute('data-component');
-    let attrs = componentAttributes(component);
-    components.push({ attrs, name, element: component, instance: undefined });
-  });
+  // Avoid NodeList.prototype.forEach for IE 11 compatibility.
+  for (let i = 0; i < islandNodeList.length; i++) {
+    let element = islandNodeList[i];
+    let name = element.getAttribute('data-component');
+    let attrs = componentAttributes(element);
+    components.push({ attrs, name, element, instance: undefined });
+  }
 
   return components;
 }
