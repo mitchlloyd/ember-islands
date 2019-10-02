@@ -1,3 +1,4 @@
+import { findAll, visit } from '@ember/test-helpers';
 import Ember from 'ember';
 import { module, test } from 'qunit';
 import startApp from '../helpers/start-app';
@@ -37,12 +38,10 @@ module('Acceptance: Dealing with missing components in production', {
   }
 });
 
-test('rendering the found component', function(assert) {
+test('rendering the found component', async function(assert) {
   assert.expect(2);
-  visit('/');
+  await visit('/');
 
-  andThen(function() {
-    assert.equal(find('p:contains(top level component)').length, 1, "The top level component was rendered");
-    assert.deepEqual(errors, [`ember-islands could not find a component named "oops-not-component" in your Ember application.`], 'Logs an error');
-  });
+  assert.equal(findAll('p:contains(top level component)').length, 1, "The top level component was rendered");
+  assert.deepEqual(errors, [`ember-islands could not find a component named "oops-not-component" in your Ember application.`], 'Logs an error');
 });

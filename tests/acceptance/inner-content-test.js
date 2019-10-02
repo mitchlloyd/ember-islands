@@ -1,3 +1,4 @@
+import { findAll, visit } from '@ember/test-helpers';
 import Ember from 'ember';
 import { module, test } from 'qunit';
 import startApp from '../helpers/start-app';
@@ -24,12 +25,10 @@ module('Acceptance: Using Inner Content', {
   }
 });
 
-test('extracting innerContent', function(assert) {
+test('extracting innerContent', async function(assert) {
   assert.expect(2);
-  visit('/');
+  await visit('/');
 
-  andThen(function() {
-    assert.equal(find('#element-with-inner-content > #inner-content').length, 0, "The inner content of the server-rendered element is replaced");
-    assert.equal(find('.inner-content-component > #inner-content').length, 1, "The innerContent is passed to components");
-  });
+  assert.equal(findAll('#element-with-inner-content > #inner-content').length, 0, "The inner content of the server-rendered element is replaced");
+  assert.equal(findAll('.inner-content-component > #inner-content').length, 1, "The innerContent is passed to components");
 });
