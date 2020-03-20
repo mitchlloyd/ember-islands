@@ -6,12 +6,22 @@ const {
   Logger
 } = Ember;
 
+export const env = {
+  assert(message, value) {
+    assert(message, value);
+  },
+
+  logError(message) {
+    Logger.error(message);
+  }
+};
+
 export default function getRenderComponent(emberObject) {
   let owner = getOwner(emberObject);
 
   return function renderComponent({ name, attrs, element }) {
     let { component, layout } = lookupComponent(owner, name);
-    assert(missingComponentMessage(name), component);
+    env.assert(missingComponentMessage(name), component);
 
     // This can only be true in production mode where assert is a no-op.
     if (!component) {
@@ -49,7 +59,7 @@ function missingComponentMessage(name) {
 }
 
 function provideMissingComponentInProductionMode(owner, name) {
-  Logger.error(missingComponentMessage(name));
+  env.logError(missingComponentMessage(name));
 
   return lookupComponent(owner, 'ember-islands/missing-component');
 }
