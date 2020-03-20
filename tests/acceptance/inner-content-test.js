@@ -1,11 +1,10 @@
 import { visit } from '@ember/test-helpers';
-import { run } from '@ember/runloop';
+import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
-import startApp from '../helpers/start-app';
-
-var application;
 
 module('Acceptance: Using Inner Content', function(hooks) {
+  setupApplicationTest(hooks);
+
   hooks.beforeEach(function() {
     document.getElementById('ember-testing').innerHTML = `
       <div id='element-with-inner-content'
@@ -15,13 +14,6 @@ module('Acceptance: Using Inner Content', function(hooks) {
         <div id='inner-content'></div>
       </div>
     `;
-
-    application = startApp();
-  });
-
-  hooks.afterEach(function() {
-    run(application, 'destroy');
-    document.getElementById('ember-testing').innerHTML = '';
   });
 
   test('extracting innerContent', async function(assert) {
