@@ -1,12 +1,17 @@
+import { assert } from '@ember/debug';
+import { getOwner } from '@ember/application';
+import Component from '@ember/component';
 import Ember from 'ember';
-const { getOwner, Component, Logger } = Ember;
+const {
+  Logger
+} = Ember;
 
 export default function getRenderComponent(emberObject) {
   let owner = getOwner(emberObject);
 
   return function renderComponent({ name, attrs, element }) {
     let { component, layout } = lookupComponent(owner, name);
-    Ember.assert(missingComponentMessage(name), component);
+    assert(missingComponentMessage(name), component);
 
     // This can only be true in production mode where assert is a no-op.
     if (!component) {

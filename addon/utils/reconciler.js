@@ -1,5 +1,4 @@
-import Ember from 'ember';
-const { guidFor } = Ember;
+import { guidFor } from '@ember/object/internals';
 
 export default class Reconciler {
   /**
