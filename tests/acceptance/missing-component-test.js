@@ -10,15 +10,17 @@ module('Acceptance: Dealing with missing components in production', function(hoo
   const originalAssert = env.assert;
   const originalLogError = env.logError;
 
-  env.assert = function(message, value) {
-    if (!value) {
-      failedAssertions.push(message);
+  hooks.before(function() {
+    env.assert = function(message, value) {
+      if (!value) {
+        failedAssertions.push(message);
+      }
     }
-  }
 
-  env.logError = function(message) {
-    errorMessages.push(message);
-  }
+    env.logError = function(message) {
+      errorMessages.push(message);
+    }
+  });
 
   hooks.beforeEach(function() {
     // Put some static content on the page before the Ember application loads.
