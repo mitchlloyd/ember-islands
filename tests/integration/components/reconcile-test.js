@@ -1,5 +1,4 @@
 import { run } from '@ember/runloop';
-import $ from 'jquery';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, settled } from '@ember/test-helpers';
@@ -13,29 +12,29 @@ module('Integration | Component | rerendering', function(hooks) {
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function() {
-    this.testContainer = $('<div id="container"></div>');
-    $('#ember-testing').append(this.testContainer);
+    this.testContainer = document.createElement('div');
+    this.testContainer.id = 'container';
+    document.getElementById('ember-testing').appendChild(this.testContainer);
   });
 
   test('when the DOM does not change', async function(assert) {
-    this.testContainer.html(`
+    this.testContainer.innerHTML = `
       <div data-component="stateful-component"
            data-attrs='{"title": "Title"}'>
         Inner Content
       </div>
-    `);
+    `;
 
     await render(hbs`
       {{ember-islands}}
     `);
 
     // Click the component to increment its count to 1
-    this.testContainer.find('button').click();
-
-    let componentElement = this.testContainer.find('button');
+    const componentElement = this.testContainer.querySelector('button');
+    componentElement.click();
 
     assert.equal(
-      componentElement.text().trim(),
+      componentElement.textContent.trim(),
       'Title, Inner Content, 1',
       'Precondition: Rendered inside the stable element'
     );
@@ -49,14 +48,14 @@ module('Integration | Component | rerendering', function(hooks) {
     reconcile();
 
     assert.equal(
-      componentElement.text().trim(),
+      componentElement.textContent.trim(),
       'Title, Inner Content, 1',
       'Rendered content and state does not change'
     );
 
     assert.strictEqual(
-      this.testContainer.find('button')[0],
-      componentElement[0],
+      this.testContainer.querySelector('button'),
+      componentElement,
       'The component element stays stable'
     );
 
@@ -68,19 +67,19 @@ module('Integration | Component | rerendering', function(hooks) {
   });
 
   test('when a placeholder is removed', async function(assert) {
-    this.testContainer.html(`
+    this.testContainer.innerHTML = `
       <div data-component="stateful-component"
            data-attrs='{"title": "Title"}'>
         Inner Content
       </div>
-    `);
+    `;
 
     await render(hbs`
       {{ember-islands}}
     `);
 
     assert.equal(
-      this.testContainer.text().trim(),
+      this.testContainer.textContent.trim(),
       'Title, Inner Content, 0',
       'Precondition: Rendered'
     );
@@ -93,15 +92,13 @@ module('Integration | Component | rerendering', function(hooks) {
 
     let renderedComponent = getInstance().getRenderedComponents()[0];
 
-    this.testContainer.html(`
+    this.testContainer.innerHTML = `
       <div>
         All new DOM!
       </div>
-    `);
+    `;
 
-    run(() => {
-      reconcile();
-    });
+    reconcile();
 
     return settled().then(function() {
       assert.equal(
@@ -129,7 +126,7 @@ module('Integration | Component | rerendering', function(hooks) {
       {{ember-islands}}
     `);
 
-    assert.equal(this.testContainer.text().trim(), '', 'Precondition: Nothing rendered');
+    assert.equal(this.testContainer.textContent.trim(), '', 'Precondition: Nothing rendered');
 
     assert.equal(
       getInstance().getRenderedComponents().length,
@@ -137,19 +134,17 @@ module('Integration | Component | rerendering', function(hooks) {
       'Precondition: tracking 0 rendered components'
     );
 
-    this.testContainer.html(`
+    this.testContainer.innerHTML = `
       <div data-component="stateful-component"
           data-attrs='{"title": "Title"}'>
         Inner Content
       </div>
-    `);
+    `;
 
-    run(() => {
-      reconcile();
-    });
+    reconcile();
 
     assert.equal(
-      this.testContainer.text().trim(),
+      this.testContainer.textContent.trim(),
       'Title, Inner Content, 0',
       'Renders a component for the added placeholder'
     );
@@ -162,59 +157,60 @@ module('Integration | Component | rerendering', function(hooks) {
   });
 
   test('when attributes of a placeholder change', async function(assert) {
-    this.testContainer.html(`
+    this.testContainer.innerHTML = `
       <div data-component="stateful-component"
            data-attrs='{"title": "Title"}'>
         Inner Content
       </div>
-    `);
+    `;
 
     await render(hbs`
       {{ember-islands}}
     `);
 
-    let componentElement = this.testContainer.find('button');
+    let componentElement = this.testContainer.querySelector('button');
 
     // Click the component to increment its count to 1
-    this.testContainer.find('button').click();
+    this.testContainer.querySelector('button').click();
 
     assert.equal(
-      componentElement.text().trim(),
+      componentElement.textContent.trim(),
       'Title, Inner Content, 1',
       'Precondition: Rendered inside the stable element'
     );
 
     this.testContainer
-      .find('[data-component=stateful-component]')
-      .attr('data-attrs', '{"title": "New Title"}');
+      .querySelector('[data-component=stateful-component]')
+      .setAttribute('data-attrs', '{"title": "New Title"}');
 
-    run(() => {
-      reconcile();
-    });
+    reconcile();
+
+    // Wait a tick for rendering
+    await new Promise(r => setTimeout(r, 0));
 
     assert.equal(
-      componentElement.text().trim(),
+      componentElement.textContent.trim(),
       'New Title, Inner Content, 1',
       'Attributes are updated and state is stable'
     );
   });
 
   test('when the data-component property of a placeholder changes', async function(assert) {
-    this.testContainer.html(`
+    this.testContainer.innerHTML = `
       <div data-component="stateful-component"
            data-attrs='{"title": "Title"}'>
         Inner Content
       </div>
-    `);
+    `;
 
     await render(hbs`
       {{ember-islands}}
     `);
 
-    let componentElement = this.testContainer.find('button');
+    let componentElement = this.testContainer.querySelector('button');
 
     assert.equal(
-      componentElement.text().trim(),
+      componentElement.textContent.trim(),
       'Title, Inner Content, 0',
       'Precondition: Rendered initial component'
     );
@@ -226,8 +222,8 @@ module('Integration | Component | rerendering', function(hooks) {
     );
 
     this.testContainer
-      .find('[data-component=stateful-component]')
-      .attr('data-component', 'top-level-component');
+      .querySelector('[data-component=stateful-component]')
+      .setAttribute('data-component', 'top-level-component');
 
     let previouslyRenderedComponent = getInstance().getRenderedComponents()[0];
 
@@ -248,7 +244,7 @@ module('Integration | Component | rerendering', function(hooks) {
     );
 
     assert.notEqual(
-      this.testContainer.text().indexOf('top level component'),
+      this.testContainer.textContent.indexOf('top level component'),
       -1,
       'Renders the new component in the placeholder'
     );
