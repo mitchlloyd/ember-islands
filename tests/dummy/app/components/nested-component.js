@@ -1,11 +1,11 @@
-import Ember from 'ember';
+import Component from "@ember/component";
 
-export default Ember.Component.extend({
+export default Component.extend({
   isExpanded: false,
 
   actions: {
-    nestedAction: function() {
-      this.sendAction('nestedAction');
-    }
-  }
+    nestedAction: function () {
+      this.sendAction("nestedAction");
+    },
+  },
 });

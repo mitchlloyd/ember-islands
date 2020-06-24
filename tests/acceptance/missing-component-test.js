@@ -1,48 +1,52 @@
-import Ember from 'ember';
-import { module, test } from 'qunit';
-import startApp from '../helpers/start-app';
+import { module, test } from "qunit";
+import { setupApplicationTest } from "ember-qunit";
+import { getRootElement, visit } from "@ember/test-helpers";
+import Ember from "ember";
 
-let application, originalAssert, originalError, errors;
+let originalError, errors;
 
-module('Acceptance: Dealing with missing components in production', {
-  beforeEach: function() {
-    // Put some static content on the page before the Ember application loads.
-    // This mimics server-rendered content.
-    document.getElementById('ember-testing').innerHTML = `
-      <div data-component='oops-not-component' data-attrs='{"title": "Component Title"}'></div>
-      <div data-component='top-level-component'></div>
-    `;
-
-    // Replace Ember's `assert` function with a no-op. This mirrors Ember's
-    // behavior in production mode.
-    originalAssert = Ember.assert;
-    Ember.assert = () => {};
-
+module("Acceptance | Dealing with missing components in production", function (
+  hooks
+) {
+  hooks.beforeEach(function () {
     // Replace Ember's Logger.error with a fake that records the errors.
     originalError = Ember.Logger.error;
     errors = [];
     Ember.Logger.error = (message) => {
       errors.push(message);
     };
+  });
 
-    application = startApp();
-  },
+  setupApplicationTest(hooks);
 
-  afterEach: function() {
-    Ember.assert = originalAssert;
+  hooks.beforeEach(function () {
+    // Put some static content on the page before the Ember application loads.
+    // This mimics server-rendered content.
+    getRootElement().innerHTML = `
+      <div data-component='oops-not-component' data-attrs='{"title": "Component Title"}'></div>
+      <div data-component='top-level-component'></div>
+    `;
+  });
+
+  hooks.afterEach(function () {
     Ember.Logger.error = originalError;
+  });
 
-    Ember.run(application, 'destroy');
-    document.getElementById('ember-testing').innerHTML = '';
-  }
-});
+  test("rendering the found component", async function (assert) {
+    await visit("/");
 
-test('rendering the found component', function(assert) {
-  assert.expect(2);
-  visit('/');
-
-  andThen(function() {
-    assert.equal(find('p:contains(top level component)').length, 1, "The top level component was rendered");
-    assert.deepEqual(errors, [`ember-islands could not find a component named "oops-not-component" in your Ember application.`], 'Logs an error');
+    assert
+      .dom("p")
+      .includesText(
+        "top level component",
+        "The top level component was rendered"
+      );
+    assert.deepEqual(
+      errors,
+      [
+        `ember-islands could not find a component named "oops-not-component" in your Ember application.`,
+      ],
+      "Logs an error"
+    );
   });
 });

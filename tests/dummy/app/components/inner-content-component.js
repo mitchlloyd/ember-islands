@@ -1,5 +1,5 @@
-import Ember from 'ember';
+import Component from "@ember/component";
 
-export default Ember.Component.extend({
-  classNameBindings: [':inner-content-component']
+export default Component.extend({
+  classNameBindings: [":inner-content-component"],
 });

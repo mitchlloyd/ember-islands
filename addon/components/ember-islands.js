@@ -1,12 +1,12 @@
-import Ember from 'ember';
-import Reconciler from 'ember-islands/utils/reconciler';
-import queryIslandComponents from 'ember-islands/utils/query-island-components';
-import getRenderComponent from 'ember-islands/utils/get-render-component';
+import Component from "@ember/component";
+import Reconciler from "ember-islands/utils/reconciler";
+import queryIslandComponents from "ember-islands/utils/query-island-components";
+import getRenderComponent from "ember-islands/utils/get-render-component";
 
 let eiInstance;
 
-export default Ember.Component.extend({
-  tagName: '',
+export default Component.extend({
+  tagName: "",
 
   init() {
     this._super(...arguments);
@@ -24,7 +24,7 @@ export default Ember.Component.extend({
 
       destroy(c) {
         c.destroy();
-      }
+      },
     });
 
     eiInstance = this;
@@ -43,8 +43,8 @@ export default Ember.Component.extend({
   },
 
   willDestroyElement() {
-    this.reconciler.forEachRenderedComponent(c => c.destroy());
-  }
+    this.reconciler.forEachRenderedComponent((c) => c.destroy());
+  },
 });
 
 export function getInstance() {

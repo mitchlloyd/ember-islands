@@ -1,5 +1,4 @@
-import Ember from 'ember';
-const { guidFor } = Ember;
+import { guidFor } from "@ember/object/internals";
 
 export default class Reconciler {
   /**
@@ -13,7 +12,7 @@ export default class Reconciler {
   reconcileAgainst(componentsToRender) {
     let nextRenderedComponents = {};
 
-    componentsToRender.forEach(ic => {
+    componentsToRender.forEach((ic) => {
       let elementGuid = guidFor(ic.element);
 
       let renderedIC = this.renderedComponents[elementGuid];

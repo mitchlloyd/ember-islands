@@ -1,12 +1,12 @@
-import Ember from 'ember';
+import Component from "@ember/component";
 
-export default Ember.Component.extend({
+export default Component.extend({
   isExpanded: false,
-  classNameBindings: [':top-level-component'],
+  classNameBindings: [":top-level-component"],
 
   actions: {
-    toggleIsExpanded: function() {
-      this.toggleProperty('isExpanded', true);
-    }
-  }
+    toggleIsExpanded: function () {
+      this.toggleProperty("isExpanded", true);
+    },
+  },
 });
