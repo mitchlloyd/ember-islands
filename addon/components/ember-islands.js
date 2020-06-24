@@ -1,11 +1,11 @@
-import Ember from "ember";
+import Component from "@ember/component";
 import Reconciler from "ember-islands/utils/reconciler";
 import queryIslandComponents from "ember-islands/utils/query-island-components";
 import getRenderComponent from "ember-islands/utils/get-render-component";
 
 let eiInstance;
 
-export default Ember.Component.extend({
+export default Component.extend({
   tagName: "",
 
   init() {

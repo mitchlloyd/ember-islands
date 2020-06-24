@@ -49,5 +49,13 @@ module.exports = {
       plugins: ["node"],
       extends: ["plugin:node/recommended"],
     },
+    // test files
+    {
+      files: ["tests/**"],
+      rules: {
+        "ember/closure-actions": "off",
+        "ember/no-jquery": "off",
+      },
+    },
   ],
 };
