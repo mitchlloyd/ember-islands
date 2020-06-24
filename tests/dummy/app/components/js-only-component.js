@@ -1,11 +1,11 @@
-import Ember from 'ember';
+import Ember from "ember";
 
 const { Component } = Ember;
 
 export default Component.extend({
-  classNames: ['js-only-component'],
+  classNames: ["js-only-component"],
 
   onDidInsertElement() {
-    this.element.innerHTML = 'js-only-component';
-  }
+    this.element.innerHTML = "js-only-component";
+  },
 });

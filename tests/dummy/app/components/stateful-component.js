@@ -1,9 +1,9 @@
-import Ember from 'ember';
+import Ember from "ember";
 
 const { Component, computed } = Ember;
 
 export default Component.extend({
-  tagName: 'button',
+  tagName: "button",
 
   init() {
     this._super(...arguments);
@@ -12,15 +12,15 @@ export default Component.extend({
   },
 
   click() {
-    this.incrementProperty('count');
+    this.incrementProperty("count");
   },
 
-  trimmedInnerContent: computed('innerContent', function() {
-    return this.get('innerContent').trim();
+  trimmedInnerContent: computed("innerContent", function () {
+    return this.innerContent.trim();
   }),
 
   destroy() {
     this.destroyCallCount++;
     this._super(...arguments);
-  }
+  },
 });

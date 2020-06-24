@@ -1,4 +1,4 @@
-import { getInstance } from './components/ember-islands';
+import { getInstance } from "./components/ember-islands";
 
 export function reconcile() {
   getInstance().reconcile();

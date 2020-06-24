@@ -1,24 +1,24 @@
-import $ from 'jquery';
-import Ember from 'ember';
-import { moduleForComponent, test } from 'ember-qunit';
-import wait from 'ember-test-helpers/wait';
-import hbs from 'htmlbars-inline-precompile';
+import $ from "jquery";
+import Ember from "ember";
+import { moduleForComponent, test } from "ember-qunit";
+import wait from "ember-test-helpers/wait";
+import hbs from "htmlbars-inline-precompile";
 import {
   pleaseDontUseThisExportToGetTheEmberIslandsInstance as getInstance,
-  reconcile
-} from 'ember-islands';
+  reconcile,
+} from "ember-islands";
 const { run } = Ember;
 
-moduleForComponent('ember-islands', 'Integration | Component | rerendering', {
+moduleForComponent("ember-islands", "Integration | Component | rerendering", {
   integration: true,
 
   beforeEach() {
     this.testContainer = $('<div id="container"></div>');
-    $('#ember-testing').append(this.testContainer);
-  }
+    $("#ember-testing").append(this.testContainer);
+  },
 });
 
-test('when the DOM does not change', function(assert) {
+test("when the DOM does not change", function (assert) {
   this.testContainer.html(`
     <div data-component="stateful-component"
          data-attrs='{"title": "Title"}'>
@@ -31,44 +31,44 @@ test('when the DOM does not change', function(assert) {
   `);
 
   // Click the component to increment its count to 1
-  this.testContainer.find('button').click();
+  this.testContainer.find("button").click();
 
-  let componentElement = this.testContainer.find('button');
+  let componentElement = this.testContainer.find("button");
 
   assert.equal(
     componentElement.text().trim(),
-    'Title, Inner Content, 1',
-    'Precondition: Rendered inside the stable element'
+    "Title, Inner Content, 1",
+    "Precondition: Rendered inside the stable element"
   );
 
   assert.equal(
     getInstance().getRenderedComponents().length,
     1,
-    'Precondition: tracking 1 rendered component'
+    "Precondition: tracking 1 rendered component"
   );
 
   reconcile();
 
   assert.equal(
     componentElement.text().trim(),
-    'Title, Inner Content, 1',
-    'Rendered content and state does not change'
+    "Title, Inner Content, 1",
+    "Rendered content and state does not change"
   );
 
   assert.strictEqual(
-    this.testContainer.find('button')[0],
+    this.testContainer.find("button")[0],
     componentElement[0],
-    'The component element stays stable'
+    "The component element stays stable"
   );
 
   assert.equal(
     getInstance().getRenderedComponents().length,
     1,
-    'still tracking 1 rendered component'
+    "still tracking 1 rendered component"
   );
 });
 
-test('when a placeholder is removed', function(assert) {
+test("when a placeholder is removed", function (assert) {
   this.testContainer.html(`
     <div data-component="stateful-component"
          data-attrs='{"title": "Title"}'>
@@ -82,14 +82,14 @@ test('when a placeholder is removed', function(assert) {
 
   assert.equal(
     this.testContainer.text().trim(),
-    'Title, Inner Content, 0',
-    'Precondition: Rendered'
+    "Title, Inner Content, 0",
+    "Precondition: Rendered"
   );
 
   assert.equal(
     getInstance().getRenderedComponents().length,
     1,
-    'Precondition: tracking 1 rendered component'
+    "Precondition: tracking 1 rendered component"
   );
 
   let renderedComponent = getInstance().getRenderedComponents()[0];
@@ -104,38 +104,42 @@ test('when a placeholder is removed', function(assert) {
     reconcile();
   });
 
-  return wait().then(function() {
+  return wait().then(function () {
     assert.equal(
       renderedComponent.isDestroying,
       true,
-      'The previously rendered component has been destroyed'
+      "The previously rendered component has been destroyed"
     );
 
     assert.notEqual(
       renderedComponent.destroyCallCount,
       0,
-      'destroy called at least once'
+      "destroy called at least once"
     );
 
     assert.equal(
       getInstance().getRenderedComponents().length,
       0,
-      'tracking no rendered components'
+      "tracking no rendered components"
     );
   });
 });
 
-test('when a new component placeholder is added', function(assert) {
+test("when a new component placeholder is added", function (assert) {
   this.render(hbs`
     {{ember-islands}}
   `);
 
-  assert.equal(this.testContainer.text().trim(), '', 'Precondition: Nothing rendered');
+  assert.equal(
+    this.testContainer.text().trim(),
+    "",
+    "Precondition: Nothing rendered"
+  );
 
   assert.equal(
     getInstance().getRenderedComponents().length,
     0,
-    'Precondition: tracking 0 rendered components'
+    "Precondition: tracking 0 rendered components"
   );
 
   this.testContainer.html(`
@@ -151,18 +155,18 @@ test('when a new component placeholder is added', function(assert) {
 
   assert.equal(
     this.testContainer.text().trim(),
-    'Title, Inner Content, 0',
-    'Renders a component for the added placeholder'
+    "Title, Inner Content, 0",
+    "Renders a component for the added placeholder"
   );
 
   assert.equal(
     getInstance().getRenderedComponents().length,
     1,
-    'started tracking 1 component'
+    "started tracking 1 component"
   );
 });
 
-test('when attributes of a placeholder change', function(assert) {
+test("when attributes of a placeholder change", function (assert) {
   this.testContainer.html(`
     <div data-component="stateful-component"
          data-attrs='{"title": "Title"}'>
@@ -174,20 +178,20 @@ test('when attributes of a placeholder change', function(assert) {
     {{ember-islands}}
   `);
 
-  let componentElement = this.testContainer.find('button');
+  let componentElement = this.testContainer.find("button");
 
   // Click the component to increment its count to 1
-  this.testContainer.find('button').click();
+  this.testContainer.find("button").click();
 
   assert.equal(
     componentElement.text().trim(),
-    'Title, Inner Content, 1',
-    'Precondition: Rendered inside the stable element'
+    "Title, Inner Content, 1",
+    "Precondition: Rendered inside the stable element"
   );
 
   this.testContainer
-    .find('[data-component=stateful-component]')
-    .attr('data-attrs', '{"title": "New Title"}');
+    .find("[data-component=stateful-component]")
+    .attr("data-attrs", '{"title": "New Title"}');
 
   run(() => {
     reconcile();
@@ -195,12 +199,12 @@ test('when attributes of a placeholder change', function(assert) {
 
   assert.equal(
     componentElement.text().trim(),
-    'New Title, Inner Content, 1',
-    'Attributes are updated and state is stable'
+    "New Title, Inner Content, 1",
+    "Attributes are updated and state is stable"
   );
 });
 
-test('when the data-component property of a placeholder changes', function(assert) {
+test("when the data-component property of a placeholder changes", function (assert) {
   this.testContainer.html(`
     <div data-component="stateful-component"
          data-attrs='{"title": "Title"}'>
@@ -212,23 +216,23 @@ test('when the data-component property of a placeholder changes', function(asser
     {{ember-islands}}
   `);
 
-  let componentElement = this.testContainer.find('button');
+  let componentElement = this.testContainer.find("button");
 
   assert.equal(
     componentElement.text().trim(),
-    'Title, Inner Content, 0',
-    'Precondition: Rendered initial component'
+    "Title, Inner Content, 0",
+    "Precondition: Rendered initial component"
   );
 
   assert.equal(
     getInstance().getRenderedComponents().length,
     1,
-    'Precondition: tracking 1 rendered component'
+    "Precondition: tracking 1 rendered component"
   );
 
   this.testContainer
-    .find('[data-component=stateful-component]')
-    .attr('data-component', 'top-level-component');
+    .find("[data-component=stateful-component]")
+    .attr("data-component", "top-level-component");
 
   let previouslyRenderedComponent = getInstance().getRenderedComponents()[0];
 
@@ -239,24 +243,24 @@ test('when the data-component property of a placeholder changes', function(asser
   assert.equal(
     previouslyRenderedComponent.isDestroying,
     true,
-    'previously rendered component has been destroyed'
+    "previously rendered component has been destroyed"
   );
 
   assert.notEqual(
     previouslyRenderedComponent.destroyCallCount,
     0,
-    'previously rendered component destroy called at least once'
+    "previously rendered component destroy called at least once"
   );
 
   assert.notEqual(
-    this.testContainer.text().indexOf('top level component'),
+    this.testContainer.text().indexOf("top level component"),
     -1,
-    'Renders the new component in the placeholder'
+    "Renders the new component in the placeholder"
   );
 
   assert.equal(
     getInstance().getRenderedComponents().length,
     1,
-    'tracking 1 new rendered component'
+    "tracking 1 new rendered component"
   );
 });

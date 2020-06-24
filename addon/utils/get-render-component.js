@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import Ember from "ember";
 const { getOwner, Component, Logger } = Ember;
 
 export default function getRenderComponent(emberObject) {
@@ -10,14 +10,19 @@ export default function getRenderComponent(emberObject) {
 
     // This can only be true in production mode where assert is a no-op.
     if (!component) {
-      ({ component, layout } = provideMissingComponentInProductionMode(owner, name));
+      ({ component, layout } = provideMissingComponentInProductionMode(
+        owner,
+        name
+      ));
     }
 
     if (layout) {
       attrs.layout = layout;
     }
 
-    while (element.firstChild) { element.removeChild(element.firstChild); }
+    while (element.firstChild) {
+      element.removeChild(element.firstChild);
+    }
     let componentInstance = component.create(attrs);
     componentInstance.appendTo(element);
 
@@ -46,5 +51,5 @@ function missingComponentMessage(name) {
 function provideMissingComponentInProductionMode(owner, name) {
   Logger.error(missingComponentMessage(name));
 
-  return lookupComponent(owner, 'ember-islands/missing-component');
+  return lookupComponent(owner, "ember-islands/missing-component");
 }

@@ -1,14 +1,14 @@
-import Ember from 'ember';
-import { module, test } from 'qunit';
-import startApp from '../helpers/start-app';
+import Ember from "ember";
+import { module, test } from "qunit";
+import startApp from "../helpers/start-app";
 
 let application, originalAssert, originalError, errors;
 
-module('Acceptance: Dealing with missing components in production', {
-  beforeEach: function() {
+module("Acceptance: Dealing with missing components in production", {
+  beforeEach: function () {
     // Put some static content on the page before the Ember application loads.
     // This mimics server-rendered content.
-    document.getElementById('ember-testing').innerHTML = `
+    document.getElementById("ember-testing").innerHTML = `
       <div data-component='oops-not-component' data-attrs='{"title": "Component Title"}'></div>
       <div data-component='top-level-component'></div>
     `;
@@ -28,21 +28,31 @@ module('Acceptance: Dealing with missing components in production', {
     application = startApp();
   },
 
-  afterEach: function() {
+  afterEach: function () {
     Ember.assert = originalAssert;
     Ember.Logger.error = originalError;
 
-    Ember.run(application, 'destroy');
-    document.getElementById('ember-testing').innerHTML = '';
-  }
+    Ember.run(application, "destroy");
+    document.getElementById("ember-testing").innerHTML = "";
+  },
 });
 
-test('rendering the found component', function(assert) {
+test("rendering the found component", function (assert) {
   assert.expect(2);
-  visit('/');
+  visit("/");
 
-  andThen(function() {
-    assert.equal(find('p:contains(top level component)').length, 1, "The top level component was rendered");
-    assert.deepEqual(errors, [`ember-islands could not find a component named "oops-not-component" in your Ember application.`], 'Logs an error');
+  andThen(function () {
+    assert.equal(
+      find("p:contains(top level component)").length,
+      1,
+      "The top level component was rendered"
+    );
+    assert.deepEqual(
+      errors,
+      [
+        `ember-islands could not find a component named "oops-not-component" in your Ember application.`,
+      ],
+      "Logs an error"
+    );
   });
 });

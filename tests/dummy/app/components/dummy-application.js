@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import Ember from "ember";
 
 export default Ember.Component.extend({
   init() {
@@ -8,7 +8,7 @@ export default Ember.Component.extend({
 
   actions: {
     toggleIslandComponents() {
-      this.toggleProperty('isShowingIslandComponents');
-    }
-  }
+      this.toggleProperty("isShowingIslandComponents");
+    },
+  },
 });
