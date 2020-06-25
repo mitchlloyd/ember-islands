@@ -4,6 +4,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, find, getRootElement } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { env } from 'ember-islands/utils/get-render-component';
+import { getFreshLifecycleCounts } from 'dummy/components/lifecycle-recorder';
 
 module('Integration | Component | ember islands', function(hooks) {
   setupRenderingTest(hooks);
@@ -110,6 +111,31 @@ module('Integration | Component | ember islands', function(hooks) {
       'threw correct error'
     );
     env.assert = originalAssert;
+  });
+
+  test('Firing lifecycle events', async function(assert) {
+    addStaticNode(`
+      <div data-component="lifecycle-recorder"></div>
+    `);
+
+    const events = getFreshLifecycleCounts();
+    await render(hbs`
+      {{ember-islands}}
+    `);
+
+    assert.equal(events.didReceiveAttrs, 1);
+  });
+
+  test('Rendering a glimmer component', async function(assert) {
+    addStaticNode(`
+      <div data-component="Namespace::GlimmerComponent"></div>
+    `);
+
+    await render(hbs`
+      {{ember-islands}}
+    `);
+
+    assert.ok(find('.glimmer-component'));
   });
 });
 
